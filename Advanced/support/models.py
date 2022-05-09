@@ -8,6 +8,13 @@ User = get_user_model()     #인증시스템에 있는 모델을 가져옴
 # 질문( 제목 카테고리/제목//이메일(답변수신을 이메일로 받겠습니다. 체크박스)//문자메시지(답변수신을 문자메시지로 받겠습니다. 체크박스)//내용//이미지(파일업로드하기))
 class Inquiry(models.Model):
     
+    status_choice = (
+        ('ER', '문의 등록'),
+        ('CA', '접수 완료'),
+        ('AC', '답변 완료'),
+    )
+    status_list = models.CharField( max_length=10,verbose_name='상태', choices=status_choice, default='ER')
+
 #제목카테고리와 제목
     #question = models.CharField(max_length=10, verbose_name='제목', null=False)
     category_choice = (
@@ -31,6 +38,12 @@ class Inquiry(models.Model):
 
 # 이미지
     image = models.ImageField(verbose_name='이미지', null=True, blank=True)
+
+# 생성자
+    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='inquiry_writer', verbose_name='생성자', default='1')
+
+# 생성일시
+    created_date = models.DateTimeField(verbose_name='생성일시', auto_now=True)
 
     def __str__(self):
         return f'[{self.pk}] {self.question}'
@@ -61,10 +74,4 @@ class Answer(models.Model):
 
 # 자꾸 오류떠서 계속해서 migrations-migrate반복,, 검색결과 migrations가 이미 정해져있으면 그런가봄.. 터미널 오류 계속 검색해서 해결함
 # 체크박스는 models.BooleanField 로 생성
-#class Answer(models.Model):
-#    answer_content = models.TextField(verbose_name='답변내용')
-#    post = models.ForeignKey(to='Inquiry', verbose_name='참조 문의글', on_delete=models.CASCADE)
-#    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
-#    created_date = models.DateTimeField(verbose_name='생성일시', auto_now_add=True)
-#    updated_date = models.DateTimeField(verbose_name='최종 수정일', auto_now=True)
 

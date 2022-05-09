@@ -7,7 +7,7 @@ User = get_user_model()		#인증시스템에 있는 모델을 가져옴
 # 질문 카테고리 답변 생성자 생성일시 최종수정자 최종수정일시
 class Faq(models.Model):
 # 질문
-    question = models.TextField(verbose_name='질문', null=False)
+    question = models.TextField(verbose_name='제목', null=False)
 
 #카테고리(일반 계정 기타)
     category_choice = (
@@ -31,7 +31,6 @@ class Faq(models.Model):
 
 # 최종수정일시
     updated_date = models.DateTimeField(verbose_name='최종 수정일시', auto_now=True, null=True)
-    print(f'updated_date')
     def __str__(self):
         return f'[{self.pk}]{self.question}'
 # migration이 안되었던 이유는 null이나 default값이 설정되지 않았기 때문

@@ -5,5 +5,7 @@ from.models import Faq
 @admin.register(Faq)
 class FaqModelAdmin(admin.ModelAdmin):
     readonly_fields = ('created_date','updated_date')
-
-# 수정은 불가능하나 시간을 보이게 하려면 @admin.register()추가 후 readonly_field추가
+    list_display = ('question', 'category_list', 'updated_date')
+    list_filter = ('category_list',)
+    search_fields = ('question',)
+    search_help_text = '제목 검색이 가능합니다.'
